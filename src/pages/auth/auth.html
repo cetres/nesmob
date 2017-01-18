@@ -1,0 +1,21 @@
+<ion-content class="auth-home">
+  <div class="logo">
+    <div class="logo-icon">
+      LOGO
+    </div>
+  </div>
+
+  <button ion-button block class="google-btn" (click)="loginUserWithGoogle()">
+    <ion-icon name="logo-googleplus"></ion-icon>
+    Log In with Google+
+  </button>
+
+  <button ion-button block class="facebook-btn" (click)="loginUserWithFacebook()">
+    <ion-icon name="logo-facebook"></ion-icon>
+    Log In with Facebook
+  </button>
+
+  <div padding class="error" *ngIf="error">
+    <p>{{error}}</p>
+  </div>
+</ion-content>

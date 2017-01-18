@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Configurações
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>Perfil</ion-list-header>
+    <ion-item (click)="logout()">
+      <ion-icon name="{{ provider_icon }}" item-left></ion-icon>
+      {{ usuario }}
+    </ion-item>
+  </ion-list>
+</ion-content>
