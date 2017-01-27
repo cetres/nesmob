@@ -1,10 +1,13 @@
 const orgCopyConfig = require('@ionic/app-scripts/config/copy.config');
 
-orgCopyConfig.include.push(
-  {
+orgCopyConfig['Firebase'] = {
     src: 'node_modules/firebase/firebase.js',
-    dest: 'www/assets/firebase.js'
-  }
-);
+    dest: 'www/'
+};
+
+orgCopyConfig['Angularfire2'] = {
+    src: 'node_modules/angularfire2/angularfire2.js',
+    dest: 'www/'
+};
 
 module.exports = orgCopyConfig;

@@ -10,17 +10,7 @@
     "ionic:serve": "ionic-app-scripts serve"
   },
   "dependencies": {
-    "@angular/common": "2.2.1",
-    "@angular/compiler": "2.2.1",
-    "@angular/compiler-cli": "2.2.1",
-    "@angular/core": "2.2.1",
-    "@angular/forms": "2.2.1",
-    "@angular/http": "2.2.1",
-    "@angular/platform-browser": "2.2.1",
-    "@angular/platform-browser-dynamic": "2.2.1",
-    "@angular/platform-server": "2.2.1",
     "@ionic/storage": "^1.1.7",
-    "angular2-jwt": "^0.1.27",
     "angularfire2": "^2.0.0-beta.7",
     "firebase": "^3.6.5",
     "ionic-angular": "2.0.0-rc.5",
@@ -31,9 +21,11 @@
     "zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "1.0.0",
-    "typescript": "2.0.9",
-    "dotenv": "4.0.0"
+    "@ionic/app-scripts": "^1.0.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "@types/request": "^0.0.30",
+    "typescript": "^2.0.9",
+    "dotenv": "^4.0.0"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
@@ -56,6 +48,7 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     },
-    "ionic_webpack": "./config/webpack.config.js"
+    "ionic_webpack": "./config/webpack.config.js",
+    "ionic_copy": "./config/copy.config.js"
   }
 }

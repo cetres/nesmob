@@ -42,8 +42,10 @@ export const firebaseConfig = {
     HomePage,
     TabsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
-              AuthProvider,
-              DataProvider]
+  providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider,
+    DataProvider
+  ]
 })
 export class AppModule {}
