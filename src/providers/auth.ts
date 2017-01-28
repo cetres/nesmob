@@ -34,7 +34,8 @@ export class AuthProvider {
       if (this.platform.is('cordova')) {
         GooglePlus.login({
              'webClientId' : GOOGLE_WEBCLIENT_ID }).then(googleData => {
-          let provider = firebase.auth.GoogleAuthProvider.credential(googleData.authResponse.accessToken);
+                console.log("gplusData:"+JSON.stringify(googleData));
+          let provider = firebase.auth.GoogleAuthProvider.credential(googleData.idToken);
           firebase.auth().signInWithCredential(provider).then(firebaseData => {
             this.af.database.list('users').update(firebaseData.uid, {
               name: firebaseData.displayName,
