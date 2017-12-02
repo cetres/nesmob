@@ -2,7 +2,7 @@ import { NavController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth';
 
-import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   templateUrl: 'auth.html',
@@ -20,7 +20,7 @@ export class AuthPage {
 
   loginUserWithGoogle() {
     this.auth.loginWithGoogle().subscribe(data => {
-      this.navCtrl.setRoot(HomePage);
+      this.navCtrl.setRoot(TabsPage);
     }, err => {
       this.error = err;
     });
@@ -28,7 +28,7 @@ export class AuthPage {
 
   loginUserWithFacebook() {
     this.auth.loginWithFacebook().subscribe(data => {
-      this.navCtrl.setRoot(HomePage);
+      this.navCtrl.setRoot(TabsPage);
     }, err => {
       this.error = err;
     });

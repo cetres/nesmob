@@ -34,11 +34,11 @@ export class MyApp {
   ngOnInit() {
     this.platform.ready().then(() => {
       this.auth.getUserData().subscribe(data => {
+        this.user = data;
         if (!this.isAppInitialized) {
           this.nav.setRoot(TabsPage);
           this.isAppInitialized = true;
         }
-        this.user = data;
 //        this.data.list('pets').subscribe(data => {
 //          console.log(data);
 //        });

@@ -11,6 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { DataProvider } from '../providers/data';
 import { AuthProvider } from '../providers/auth';
+import { MachineProvider } from '../providers/machine';
 
 export const firebaseConfig = {
   apiKey: API_KEY,
@@ -45,7 +46,8 @@ export const firebaseConfig = {
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    DataProvider
+    DataProvider,
+    MachineProvider
   ]
 })
 export class AppModule {}
