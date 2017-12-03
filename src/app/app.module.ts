@@ -4,6 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
+import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { AuthPage } from '../pages/auth/auth';
@@ -53,7 +56,10 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     DataProvider,
-    MachineProvider
+    MachineProvider,
+    Facebook,
+    GooglePlus,
+    StatusBar
   ]
 })
 export class AppModule {}
