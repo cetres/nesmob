@@ -3,7 +3,8 @@ import { Platform } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
-import { Facebook, GooglePlus } from 'ionic-native';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import * as firebase from 'firebase/app';
 
 // Providers
@@ -12,7 +13,12 @@ import { DataProvider } from './data';
 @Injectable()
 export class AuthProvider {
   user: any;
-  constructor(private afa: AngularFireAuth, private afd: AngularFireDatabase, private data: DataProvider, private platform: Platform) {}
+  constructor(private afa: AngularFireAuth,
+              private afd: AngularFireDatabase,
+              private data: DataProvider,
+              private platform: Platform,
+              private fb: Facebook,
+              private googlePlus: GooglePlus) {}
 
   getUserData() {
     return Observable.create(observer => {
@@ -33,7 +39,7 @@ export class AuthProvider {
   loginWithGoogle() {
     return Observable.create(observer => {
       if (this.platform.is('cordova')) {
-        GooglePlus.login({
+        this.googlePlus.login({
              'webClientId' : GOOGLE_WEBCLIENT_ID }).then(googleData => {
                 console.log("gplusData:"+JSON.stringify(googleData));
           let provider = firebase.auth.GoogleAuthProvider.credential(googleData.idToken);
@@ -48,7 +54,7 @@ export class AuthProvider {
           });
         }, error => {
           observer.error(error);
-        });
+        }).catch(err => console.error(err));
       } else {
         this.afa.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()
           ).then((googleData) => {
@@ -70,7 +76,7 @@ export class AuthProvider {
   loginWithFacebook() {
     return Observable.create(observer => {
       if (this.platform.is('cordova')) {
-        Facebook.login(['public_profile', 'email']).then(facebookData => {
+        this.fb.login(['public_profile', 'email']).then(facebookData => {
           let provider = firebase.auth.FacebookAuthProvider.credential(facebookData.authResponse.accessToken);
           firebase.auth().signInWithCredential(provider).then(firebaseData => {
             this.afd.list('users').update(firebaseData.uid, {
@@ -83,7 +89,7 @@ export class AuthProvider {
           });
         }, error => {
           observer.error(error);
-        });
+        }).catch(e => console.log('Error logging into Facebook', e));;
       } else {
         this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()
           ).then((facebookData) => {
