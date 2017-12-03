@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
 @Component({
   selector: 'page-about',
   templateUrl: 'about.html'
 })
 export class AboutPage {
-  coffees: FirebaseListObservable<any>;
+  coffees: AngularFireList<any>;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
-  af: AngularFire) {
-    this.coffees = af.database.list('/coffee');
+  af: AngularFireDatabase) {
+    this.coffees = af.list('/coffee');
   }
 
   getCoffee(){

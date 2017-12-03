@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { Facebook, GooglePlus } from 'ionic-native';
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
 
 // Providers
 import { DataProvider } from './data';
@@ -11,13 +12,13 @@ import { DataProvider } from './data';
 @Injectable()
 export class AuthProvider {
   user: any;
-  constructor(private af: AngularFire, private data: DataProvider, private platform: Platform) {}
+  constructor(private afa: AngularFireAuth, private afd: AngularFireDatabase, private data: DataProvider, private platform: Platform) {}
 
   getUserData() {
     return Observable.create(observer => {
-      this.af.auth.subscribe(authData => {
+      this.afa.authState.subscribe(authData => {
         if (authData) {
-          this.data.object('users/' + authData.uid).subscribe(userData => {
+          this.data.object('users/' + authData.uid).valueChanges().subscribe(userData => {
             console.log(userData);
             this.user = userData;
             observer.next(userData);
@@ -37,7 +38,7 @@ export class AuthProvider {
                 console.log("gplusData:"+JSON.stringify(googleData));
           let provider = firebase.auth.GoogleAuthProvider.credential(googleData.idToken);
           firebase.auth().signInWithCredential(provider).then(firebaseData => {
-            this.af.database.list('users').update(firebaseData.uid, {
+            this.afd.list('users').update(firebaseData.uid, {
               name: firebaseData.displayName,
               email: firebaseData.email,
               provider: 'googleplus',
@@ -49,11 +50,9 @@ export class AuthProvider {
           observer.error(error);
         });
       } else {
-        this.af.auth.login({
-          provider: AuthProviders.Google,
-          method: AuthMethods.Popup
-        }).then((googleData) => {
-          this.af.database.list('users').update(googleData.auth.uid, {
+        this.afa.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()
+          ).then((googleData) => {
+          this.afd.list('users').update(googleData.auth.uid, {
             name: googleData.auth.displayName,
             email: googleData.auth.email,
             provider: 'googleplus',
@@ -74,7 +73,7 @@ export class AuthProvider {
         Facebook.login(['public_profile', 'email']).then(facebookData => {
           let provider = firebase.auth.FacebookAuthProvider.credential(facebookData.authResponse.accessToken);
           firebase.auth().signInWithCredential(provider).then(firebaseData => {
-            this.af.database.list('users').update(firebaseData.uid, {
+            this.afd.list('users').update(firebaseData.uid, {
               name: firebaseData.displayName,
               email: firebaseData.email,
               provider: 'facebook',
@@ -86,11 +85,9 @@ export class AuthProvider {
           observer.error(error);
         });
       } else {
-        this.af.auth.login({
-          provider: AuthProviders.Facebook,
-          method: AuthMethods.Popup
-        }).then((facebookData) => {
-          this.af.database.list('users').update(facebookData.auth.uid, {
+        this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()
+          ).then((facebookData) => {
+          this.afd.list('users').update(facebookData.auth.uid, {
             name: facebookData.auth.displayName,
             email: facebookData.auth.email,
             provider: 'facebook',
@@ -106,6 +103,6 @@ export class AuthProvider {
   }
 
   logout() {
-    this.af.auth.logout();
+    this.afa.auth.signOut();
   }
 }
